@@ -62,7 +62,7 @@ function DrawerGroup() {
       
       <Drawer.Screen name="Principal" component={StackGroup} options={{ headerShown: false }} />  
       <Drawer.Screen name= "Perfil" component={Perfil}/>
-      <Drawer.Screen name= "Perfillld" component={EditaP}/>
+      
       <Drawer.Screen name="Payments" component={Payments} />
 
     </Drawer.Navigator>
