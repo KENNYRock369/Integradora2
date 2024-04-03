@@ -1,127 +1,152 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, FlatList, Image, Dimensions, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import Animated, { interpolate, Extrapolate, useSharedValue, useAnimatedStyle } from "react-native-reanimated";
 
-const DATA = [
-  {
-    id: 1,
-    image: "https://tecniquero.com.mx/cdn/shop/products/Lentes_sol.5.3.png?v=1688583429&width=1445",
-  },
-  {
-    id: 2,
-    image: "https://hiraoka.com.pe/media/wysiwyg/mejores_marcas_celulares-apple.jpg",
-  },
-  {
-    id: 3,
-    image: "https://cdn1.coppel.com/images/catalog/pr/8521332-1.jpg",
-  },
-  {
-    id: 4,
-    image: "https://http2.mlstatic.com/D_NQ_NP_799015-MLU72675538822_112023-O.webp",
-  },
-];
+const SRC_WIDTH = Dimensions.get("window").width;
+const CARD_LENGTH_MOBILE = SRC_WIDTH * 0.8; // Tamaño para dispositivos móviles
+const CARD_LENGTH_WEB = 350; // Tamaño específico para la versión web
+const SPACING = SRC_WIDTH * 0.02;
+const SIDECARD_LENGTH = (SRC_WIDTH * 0.18) / 2;
+const AnimatedView = Animated.View;
 
-const Carousel = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+interface ItemProps {
+  index: number,
+  scrollX: number,
+  data: { id: string, title: string, image: any }[],
+}
+
+function Item({ index, scrollX, data }: ItemProps) {
+  const size = useSharedValue(0.8);
+
+  const inputRange = [
+    (index - 1) * CARD_LENGTH_MOBILE,
+    index * CARD_LENGTH_MOBILE,
+    (index + 1) * CARD_LENGTH_MOBILE
+  ];
+
+  size.value = interpolate(
+    scrollX,
+    inputRange,
+    [0.8, 1, 0.8],
+    Extrapolate.CLAMP
+  );
+
+  const opacity = useSharedValue(1);
+  const opacityInputRange = [
+    (index - 1) * CARD_LENGTH_MOBILE,
+    index * CARD_LENGTH_MOBILE,
+    (index + 1) * CARD_LENGTH_MOBILE
+  ];
+  
+  opacity.value = interpolate(
+    scrollX,
+    opacityInputRange,
+    [0.5, 1, 0.5],
+    Extrapolate.CLAMP
+  );
+
+  const cardStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scaleY: size.value }],
+      opacity: opacity.value,
+    }
+  });
+
+  return (
+    <AnimatedView style={[styles.card, cardStyle, {
+      marginLeft: index == 0 ? SIDECARD_LENGTH : SPACING,
+      marginRight: index == 2 ? SIDECARD_LENGTH : SPACING,
+    }]}>
+      <Image
+        source={data[index].image}
+        style={styles.image} // Estilos para la imagen
+      />
+    </AnimatedView>
+  );
+}
+
+export default function Carousel() {
+  const [scrollX, setScrollX] = useState(0);
   const carouselRef = useRef(null);
+
+  const DATA = [
+    {
+      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+      title: "First Item",
+      image: require("../assets/imagenes/lapto.webp"), // Ruta de la primera imagen
+    },
+    {
+      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+      title: "Second Item",
+      image: require("../assets/imagenes/apple.webp"), // Ruta de la segunda imagen
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d72",
+      title: "Third Item",
+      image: require("../assets/imagenes/tenis.jpeg"), // Ruta de la tercera imagen
+    },
+    // Agrega más objetos para más imágenes
+  ];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      let newIndex = activeIndex + 1;
-      if (newIndex >= DATA.length) {
-        newIndex = 0;
+      const lastIndex = Math.floor(scrollX / CARD_LENGTH_MOBILE);
+      if (lastIndex === DATA.length - 1) {
+        carouselRef.current.scrollToOffset({ offset: 0 });
+      } else {
+        carouselRef.current.scrollToOffset({ offset: scrollX + CARD_LENGTH_MOBILE });
       }
-      setActiveIndex(newIndex);
-      carouselRef.current.scrollToIndex({ index: newIndex, animated: true });
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, [activeIndex]);
-
-  const renderItem = ({ item, index }) => {
-    return (
-      <View style={styles.itemContainer}>
-        <Image
-          source={{ uri: item.image }}
-          style={index === activeIndex ? styles.activeItem : styles.item}
-        />
-        {index === activeIndex && (
-          <View style={styles.indicatorContainer}>
-            {DATA.map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.indicator,
-                  i === activeIndex ? styles.activeIndicator : null,
-                ]}
-              />
-            ))}
-          </View>
-        )}
-      </View>
-    );
-  };
+  }, [scrollX]);
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <Animated.FlatList
         ref={carouselRef}
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal
-        pagingEnabled
+        scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
+        decelerationRate={0.8}
+        snapToInterval={CARD_LENGTH_MOBILE + (SPACING * 1.5)}
+        disableIntervalMomentum={true}
+        disableScrollViewPanResponder={true}
+        snapToAlignment={"center"}
+        data={DATA}
+        horizontal={true}
+        renderItem={({ item, index }) => {
+          return (
+            <Item index={index} scrollX={scrollX} data={DATA} />
+          )
+        }}
+        keyExtractor={(item) => item.id}
+        onScroll={(event) => {
+          setScrollX(event.nativeEvent.contentOffset.x);
+        }}
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 20,
+    marginTop: 20, // Ajusta el margen superior según sea necesario
+    marginLeft: -20, // Ajusta el margen izquierdo según sea necesario
   },
-  itemContainer: {
-    width: Dimensions.get('window').width * 0.7, // Reducir el ancho del contenedor
-    height: 150, // Mantener la altura del contenedor
-    marginHorizontal: 10,
-    position: 'relative',
+  card: {
+    width: CARD_LENGTH_MOBILE, // Ancho fijo para dispositivos móviles
+    height: 150, // Altura fija para dispositivos móviles
+    overflow: "hidden",
+    borderRadius: 15,
+    // Tamaño específico para la versión web
+    "@media (min-width: 600px)": {
+      width: CARD_LENGTH_WEB,
+      height: CARD_LENGTH_WEB, // Altura ajustada para la versión web (cuadrado)
+    },
   },
-  item: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover',
-    borderRadius: 20,
-  },
-  activeItem: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover',
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'blue',
-  },
-  indicatorContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 5,
-    left: 0,
-    right: 0,
-  },
-  indicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'gray',
-    marginHorizontal: 5,
-  },
-  activeIndicator: {
-    backgroundColor: 'blue',
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover", // Ajusta la imagen para cubrir todo el contenedor
   },
 });
-
-export default Carousel;

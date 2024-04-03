@@ -14,6 +14,11 @@ import { Image, Pressable, useColorScheme, Text } from "react-native";
 import WelcomeScreen from "./screens/product/WelcomeScreen";
 import RecipeListaScreen from "./screens/product/RecipeListaScreen";
 import ObjetoDetallesScreen from "./screens/product/ObjetoDetallesScreen";
+import Perfil from "./screens/profile/Perfil";
+import EditaP from "./screens/profile/EditaP";
+
+
+
 
 
 
@@ -55,8 +60,11 @@ function DrawerGroup() {
   return (
     <Drawer.Navigator>
       
-      <Drawer.Screen name="Principal" component={StackGroup} options={{ headerShown: false }} />
+      <Drawer.Screen name="Principal" component={StackGroup} options={{ headerShown: false }} />  
+      <Drawer.Screen name= "Perfil" component={Perfil}/>
+      <Drawer.Screen name= "Perfillld" component={EditaP}/>
       <Drawer.Screen name="Payments" component={Payments} />
+
     </Drawer.Navigator>
   );
 }
