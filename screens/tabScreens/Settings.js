@@ -1,74 +1,61 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React from "react";
+import { View, Text, TouchableOpacity, ScrollView, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useTheme } from "@react-navigation/native";
 
-const COLORES = {
-  primario: 'negro',
-  gris: 'gris',
-  blanco: 'blanco',
-};
+const Ajustes = () => {
+  const { colors } = useTheme();
+  const colorScheme = useColorScheme();
 
-const FUENTES = {
-  regular: {
-    fontFamily: 'Arial', // Cambia 'Arial' por la fuente que desees
-    fontWeight: 'normal',
-  },
-  bold: {
-    fontFamily: 'Arial-Bold', // Cambia 'Arial-Bold' por la fuente bold que desees
-    fontWeight: 'bold',
-  },
-  // Agrega más estilos de fuente según sea necesario
-};
+  const COLORES = {
+    primario: colors.text,
+    gris: colors.card,
+    blanco: colors.background,
+  };
 
+  const FUENTES = {
+    regular: {
+      fontFamily: 'Arial', // Cambia 'Arial' por la fuente que desees
+      fontWeight: 'normal',
+    },
+    bold: {
+      fontFamily: 'Arial-Bold', // Cambia 'Arial-Bold' por la fuente bold que desees
+      fontWeight: 'bold',
+    },
+    // Agrega más estilos de fuente según sea necesario
+  };
 
-const Ajustes = ({}) => {
   const irAEditarPerfil = () => {
-    navigation.navigate("EditarPerfil");
+    console.log("Función de editar perfil");
   };
 
-  const irASeguridad = () => {
-    console.log("Función de seguridad");
+  const irAConfiguracion = () => {
+    console.log("Función de configuración");
   };
 
-  const irANotificaciones = () => {
-    console.log("Función de notificaciones");
+  const irAMisPedidos = () => {
+    console.log("Función de mis pedidos");
   };
 
-  const irAPrivacidad = () => {
-    console.log("Función de privacidad");
+  const irAContacto = () => {
+    console.log("Función de contacto");
   };
 
-  const irASuscripción = () => {
-    console.log("Función de suscripción");
+  const irAPoliticasDePrivacidad = () => {
+    console.log("Función de políticas de privacidad");
   };
 
-  const irAAyuda = () => {
-    console.log("Función de ayuda");
+  const irACondicionesDeUso = () => {
+    console.log("Función de condiciones de uso");
   };
 
-  const irATérminosYPolíticas = () => {
-    console.log("Función de términos y políticas");
+  const irAFAQ = () => {
+    console.log("Función de preguntas frecuentes");
   };
 
-  const irALiberarEspacio = () => {
-    console.log("Función de liberar espacio");
-  };
-
-  const irAAhorradorDeDatos = () => {
-    console.log("Función de ahorrador de datos");
-  };
-
-  const irAReportarProblema = () => {
-    console.log("Función de reportar un problema");
-  };
-
-  const agregarCuenta = () => {
-    console.log("Agregar cuenta");
-  };
-
-  const cerrarSesión = () => {
-    console.log("Cerrar sesión");
+  const irAAcercaDe = () => {
+    console.log("Función de acerca de");
   };
 
   const elementosCuenta = [
@@ -77,46 +64,55 @@ const Ajustes = ({}) => {
       texto: "Editar Perfil",
       accion: irAEditarPerfil,
     },
-    { icono: "security", texto: "Seguridad", accion: irASeguridad },
+    { icono: "settings", texto: "Configuración", accion: irAConfiguracion },
     {
-      icono: "notifications-none",
-      texto: "Notificaciones",
-      accion: irANotificaciones,
+      icono: "shopping-cart",
+      texto: "Mis Pedidos",
+      accion: irAMisPedidos,
     },
-    { icono: "lock-outline", texto: "Privacidad", accion: irAPrivacidad },
   ];
 
   const elementosAyuda = [
     {
-      icono: "credit-card",
-      texto: "Mi Suscripción",
-      accion: irASuscripción,
+      icono: "contact-mail",
+      texto: "Contacto",
+      accion: irAContacto,
     },
-    { icono: "help-outline", texto: "Ayuda y Soporte", accion: irAAyuda },
+    { icono: "security", texto: "Políticas de Privacidad", accion: irAPoliticasDePrivacidad },
     {
-      icono: "info-outline",
-      texto: "Términos y Políticas",
-      accion: irATérminosYPolíticas,
+      icono: "gavel",
+      texto: "Condiciones de Uso",
+      accion: irACondicionesDeUso,
     },
+    {
+      icono: "question-answer",
+      texto: "FAQ",
+      accion: irAFAQ,
+    },
+    { icono: "info-outline", texto: "Acerca de", accion: irAAcercaDe },
   ];
 
   const elementosCacheYCelular = [
     {
       icono: "delete-outline",
       texto: "Liberar Espacio",
-      accion: irALiberarEspacio,
+      accion: () => console.log("Función de liberar espacio"),
     },
-    { icono: "save-alt", texto: "Ahorrador de Datos", accion: irAAhorradorDeDatos },
+    {
+      icono: "save-alt",
+      texto: "Ahorrador de Datos",
+      accion: () => console.log("Función de ahorrador de datos"),
+    },
   ];
 
   const elementosAcciones = [
     {
       icono: "outlined-flag",
       texto: "Reportar un Problema",
-      accion: irAReportarProblema,
+      accion: () => console.log("Función de reportar un problema"),
     },
-    { icono: "people-outline", texto: "Agregar Cuenta", accion: agregarCuenta },
-    { icono: "logout", texto: "Cerrar Sesión", accion: cerrarSesión },
+    { icono: "people-outline", texto: "Agregar Cuenta", accion: () => console.log("Función de agregar cuenta") },
+    { icono: "logout", texto: "Cerrar Sesión", accion: () => console.log("Función de cerrar sesión") },
   ];
 
   const renderizarElementoAjustes = ({ icono, texto, accion }) => (
@@ -130,13 +126,14 @@ const Ajustes = ({}) => {
         backgroundColor: COLORES.gris,
       }}
     >
-      <MaterialIcons name={icono} size={24} color="negro" />
+      <MaterialIcons name={icono} size={24} color={COLORES.primario} />
       <Text
         style={{
           marginLeft: 36,
           ...FUENTES.semiBold,
           fontWeight: 600,
           fontSize: 16,
+          color: COLORES.primario,
         }}
       >
         {texto}{" "}
@@ -151,34 +148,10 @@ const Ajustes = ({}) => {
         backgroundColor: COLORES.blanco,
       }}
     >
-      <View
-        style={{
-          marginHorizontal: 12,
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            position: "absolute",
-            left: 0,
-          }}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={24}
-            color={COLORES.negro}
-          />
-        </TouchableOpacity>
-
-        <Text style={{ ...FUENTES.h3 }}>Ajustes</Text>
-      </View>
-
       <ScrollView style={{ marginHorizontal: 12 }}>
         {/* Ajustes de cuenta */}
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ ...FUENTES.h4, marginVertical: 10 }}>Cuenta</Text>
+          <Text style={{ ...FUENTES.h4, marginVertical: 10, color: COLORES.primario }}>Cuenta</Text>
           <View
             style={{
               borderRadius: 12,
@@ -196,7 +169,7 @@ const Ajustes = ({}) => {
         {/* Ajustes de ayuda y soporte */}
 
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ ...FUENTES.h4, marginVertical: 10 }}>
+          <Text style={{ ...FUENTES.h4, marginVertical: 10, color: COLORES.primario }}>
             Ayuda y Soporte{" "}
           </Text>
           <View
@@ -215,7 +188,7 @@ const Ajustes = ({}) => {
 
         {/* Ajustes de cache y celular */}
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ ...FUENTES.h4, marginVertical: 10 }}>
+          <Text style={{ ...FUENTES.h4, marginVertical: 10, color: COLORES.primario }}>
             Cache y Celular{" "}
           </Text>
           <View
@@ -235,7 +208,7 @@ const Ajustes = ({}) => {
         {/* Ajustes de acciones */}
 
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ ...FUENTES.h4, marginVertical: 10 }}>Acciones</Text>
+          <Text style={{ ...FUENTES.h4, marginVertical: 10, color: COLORES.primario }}>Acciones</Text>
           <View
             style={{
               borderRadius: 12,

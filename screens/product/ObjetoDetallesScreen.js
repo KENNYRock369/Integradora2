@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
     borderRadius: 19,
     marginTop: -68, // Ajusta el margen superior para separar el botón
     marginBottom: 20,
-    alignSelf: 'flex-end', // Alinea el contenido del botón hacia la derecha
-    marginRight: -5, // Agrega margen derecho para mover el botón hacia la derecha
+    alignSelf: 'center', // Alinea el contenido del botón hacia la derecha
+    marginRight: -200, // Agrega margen derecho para mover el botón hacia la derecha
   },
   
   commentContainer: {

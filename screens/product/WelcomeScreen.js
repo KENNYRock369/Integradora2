@@ -23,7 +23,7 @@ style={{
     </Text>
     {/* Parte del Boton */}
       <TouchableOpacity 
-       onPress={()=>navigation.navigate("RecipeList")}
+       onPress={()=>navigation.navigate("Singup")}
       style={{  
         backgroundColor:"black",
         borderRadius:18,

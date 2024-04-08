@@ -11,11 +11,15 @@ import { Ionicons } from "@expo/vector-icons";
 import TweetDetailScreen from "./screens/homeStack/TweetDetailsScreen";
 import Payments from "./screens/drawerScreens/Payments";
 import { Image, Pressable, useColorScheme, Text } from "react-native";
-import WelcomeScreen from "./screens/product/WelcomeScreen";
 import RecipeListaScreen from "./screens/product/RecipeListaScreen";
 import ObjetoDetallesScreen from "./screens/product/ObjetoDetallesScreen";
 import Perfil from "./screens/profile/Perfil";
 import EditaP from "./screens/profile/EditaP";
+import WelcomeScreen from "./screens/product/WelcomeScreen";
+import Home from "./screens/login/Home"
+import ProductRegistration from "./screens/login/ProductRegistration";
+
+
 
 
 
@@ -34,6 +38,7 @@ function TopTabGroup() {
       <TopTab.Screen name="Producto" component={RecipeListaScreen} />
      {/* <TopTab.Screen name="Nuevo" component={Inicio} /> */}
       <TopTab.Screen name="Cambios" component={Payments} />
+      <TopTab.Screen name="Subir Producto" component={ProductRegistration} />
       <TopTab.Screen name="Carrito" component={Payments} />
     </TopTab.Navigator>
   );
@@ -48,12 +53,15 @@ const Stack = createNativeStackNavigator();
 function StackGroup() {
   return (
     <Stack.Navigator>
+     
       <Stack.Screen name="TabGroup" component={TabGroup} options={{ headerShown: false }} />
       <Stack.Screen name="RecipeList" component={RecipeListaScreen} />
       <Stack.Screen name="ObjetoDetalles" component={ObjetoDetallesScreen} />
+ 
 
     </Stack.Navigator>
   );
+  
 }
 
 function DrawerGroup() {
@@ -62,7 +70,7 @@ function DrawerGroup() {
       
       <Drawer.Screen name="Principal" component={StackGroup} options={{ headerShown: false }} />  
       <Drawer.Screen name= "Perfil" component={Perfil}/>
-      
+      <Drawer.Screen name="Subir Producto" component={ProductRegistration} />
       <Drawer.Screen name="Payments" component={Payments} />
 
     </Drawer.Navigator>
