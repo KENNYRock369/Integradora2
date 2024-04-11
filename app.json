@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "tutorial-navigation",
-    "slug": "tutorial-navigation",
+    "name": "Truekeland",
+    "slug": "Truekeland",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/BOXS.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/BOXS.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.tutorialnavigation"
+      "package": "com.anonymous.Truekeland"
     },
     "web": {
       "favicon": "./assets/favicon.png"

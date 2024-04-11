@@ -1,43 +1,44 @@
-import { StyleSheet, Text, View, Image, Touchable, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const WelcomeScreen = ({navigation}) => {
+const WelcomeScreen = ({ navigation }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('Login');
+    }, 1000); // Navegar a la pantalla de Login después de 2 segundos (2000 milisegundos)
+    
+    // Limpia el temporizador cuando el componente se desmonta o se actualiza
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
-    <View style={{flex:1, alignItems: "center",justifyContent: 'center'}}>
-      <Image source={require("../../assets/imagenes/logo.png")}/>
-
- <Text style={{color:"#f96163", fontSize: 22, fontWeight: "bold"}}> 
- Bievenidos
- </Text>
-
-<Text 
-style={{
-  fontSize: 42, 
-  fontWeight:"bold",
-  color: "#3c44cc", 
-  marginTop:44,
-  marginBottom:20
-  }}
-  >
-    TruekLand
-    </Text>
-    {/* Parte del Boton */}
-      <TouchableOpacity 
-       onPress={()=>navigation.navigate("Singup")}
-      style={{  
-        backgroundColor:"black",
-        borderRadius:18,
-        paddingVertical:18,
-        width : "80%",
-        alignItems: "center"
-      }}>
-              
-      <Text style={{fontSize:18,color:"#fff",fontWeight:"700"}}>Let's Go</Text>        
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <Image source={require('../../assets/imagenes/logo.png')} />
+      <Text style={styles.title}>Bievenidos</Text>
+      <Text style={styles.subtitle}>TruekLand</Text>
     </View>
-  )
-}
+  );
+};
 
-export default WelcomeScreen
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    color: '#f96163',
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 44,
+    marginBottom: 20,
+  },
+  subtitle: {
+    fontSize: 42,
+    fontWeight: 'bold',
+    color: '#3c44cc',
+    marginBottom: 20,
+  },
+});
 
-const styles = StyleSheet.create({})
+export default WelcomeScreen;

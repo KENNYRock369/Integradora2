@@ -1,85 +1,26 @@
 import React from "react";
-import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Inicio from "./screens/tabScreens/Inicio";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { Image, Pressable } from "react-native";
+import RecipeListaScreen from "./screens/product/RecipeListaScreen";
+import Payments from "./screens/drawerScreens/Payments";
+import ProductRegistration from "./screens/login/ProductRegistration";
 import Notifications from "./screens/tabScreens/Notifications";
 import Settings from "./screens/tabScreens/Settings";
-import { Ionicons } from "@expo/vector-icons";
-import TweetDetailScreen from "./screens/homeStack/TweetDetailsScreen";
-import Payments from "./screens/drawerScreens/Payments";
-import { Image, Pressable, useColorScheme, Text } from "react-native";
-import RecipeListaScreen from "./screens/product/RecipeListaScreen";
-import ObjetoDetallesScreen from "./screens/product/ObjetoDetallesScreen";
 import Perfil from "./screens/profile/Perfil";
-import EditaP from "./screens/profile/EditaP";
+import ObjetoDetallesScreen from "./screens/product/ObjetoDetallesScreen";
 import WelcomeScreen from "./screens/product/WelcomeScreen";
-import Home from "./screens/login/Home"
-import ProductRegistration from "./screens/login/ProductRegistration";
-
-
-
-
-
-
-
+import Home from "./screens/login/Home";
 
 const TopTab = createMaterialTopTabNavigator();
-
-function TopTabGroup() {
-  return (
-    <TopTab.Navigator
-      screenOptions={{
-        tabBarLabelStyle: { textTransform: "capitalize", fontWeight: "bold" },
-        tabBarIndicatorStyle: { height: 5, borderRadius: 20, backgroundColor: "#8EF3B6" }
-      }}>
-      <TopTab.Screen name="Producto" component={RecipeListaScreen} />
-     {/* <TopTab.Screen name="Nuevo" component={Inicio} /> */}
-      <TopTab.Screen name="Cambios" component={Payments} />
-      <TopTab.Screen name="Subir Producto" component={ProductRegistration} />
-      <TopTab.Screen name="Carrito" component={Payments} />
-    </TopTab.Navigator>
-  );
-}
-
-
 const Drawer = createDrawerNavigator();
-
-// Define StackGroup antes de DrawerGroup
 const Stack = createNativeStackNavigator();
-
-function StackGroup() {
-  return (
-    <Stack.Navigator>
-     
-      <Stack.Screen name="TabGroup" component={TabGroup} options={{ headerShown: false }} />
-      <Stack.Screen name="RecipeList" component={RecipeListaScreen} />
-      <Stack.Screen name="ObjetoDetalles" component={ObjetoDetallesScreen} />
- 
-
-    </Stack.Navigator>
-  );
-  
-}
-
-function DrawerGroup() {
-  return (
-    <Drawer.Navigator>
-      
-      <Drawer.Screen name="Principal" component={StackGroup} options={{ headerShown: false }} />  
-      <Drawer.Screen name= "Perfil" component={Perfil}/>
-      <Drawer.Screen name="Subir Producto" component={ProductRegistration} />
-      <Drawer.Screen name="Payments" component={Payments} />
-
-    </Drawer.Navigator>
-  );
-}
-
 const Tab = createBottomTabNavigator();
 
-function TabGroup({ navigation }) {
+export default function MainView({ navigation }) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -96,14 +37,23 @@ function TabGroup({ navigation }) {
         },
         tabBarActiveTintColor: "#8EF3B6",
         tabBarInactiveTintColor: "gray",
-      })}>
+      })}
+    >
       <Tab.Screen
         name="Inicio"
         component={TopTabGroup}
         options={{
           headerLeft: () => (
             <Pressable onPress={() => navigation.openDrawer()}>
-              <Image source={require("./assets/BrayanRe.png")} style={{ width: 40, height: 40, borderRadius: 100, marginLeft: 15 }} />
+              <Image
+                source={require("./assets/BrayanRe.png")}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 100,
+                  marginLeft: 15,
+                }}
+              />
             </Pressable>
           ),
         }}
@@ -114,11 +64,22 @@ function TabGroup({ navigation }) {
   );
 }
 
-export default function Navigation() {
-  const currentTheme = useColorScheme();
+function TopTabGroup() {
   return (
-    <NavigationContainer theme={currentTheme === "dark" ? DarkTheme : DefaultTheme}>
-      <DrawerGroup />
-    </NavigationContainer>
+    <TopTab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: { textTransform: "capitalize", fontWeight: "bold" },
+        tabBarIndicatorStyle: {
+          height: 5,
+          borderRadius: 20,
+          backgroundColor: "#8EF3B6",
+        },
+      }}
+    >
+      <TopTab.Screen name="Producto" component={RecipeListaScreen} />
+      <TopTab.Screen name="Cambios" component={Payments} />
+      <TopTab.Screen name="Subir Producto" component={ProductRegistration} />
+      <TopTab.Screen name="Carrito" component={Payments} />
+    </TopTab.Navigator>
   );
 }
